@@ -1,13 +1,12 @@
 export class Factery {
   public static schemaOf<T>(object: T): string {
     const keys = Object.keys(object);
-    const returnStrings: string[] = [];
-
+    const filteredParsedString: string[] = [];
     keys.filter((key) => {
       if (typeof object[key] === 'string') {
-        returnStrings.push(`"${key}": String`);
+        filteredParsedString.push(`"${key}": String`);
       }
     });
-    return `{ ${returnStrings} }`;
+    return `{ ${filteredParsedString} }`;
   }
 }
