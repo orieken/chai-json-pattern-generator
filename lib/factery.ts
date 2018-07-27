@@ -1,12 +1,27 @@
 export class Factery {
   public static schemaOf<T>(object: T): string {
-    const keys = Object.keys(object);
-    const filteredParsedString: string[] = [];
-    keys.filter((key) => {
-      if (typeof object[key] === 'string') {
-        filteredParsedString.push(`"${key}": String`);
-      }
-    });
-    return `{ ${filteredParsedString} }`;
+    if (Array.isArray(object)) {
+      const firstArrayItem = object[0];
+      return `[ ${reflector(firstArrayItem)(firstArrayItem)} ]`;
+    }
+    const filteredParsedString = Object.keys(object).reduce(
+      (acc, key) => {
+        const currentValue = object[key];
+        const type = reflector(currentValue);
+        acc.push(`"${key}": ${type(currentValue)}`);
+        return acc;
+      },
+      new Array<string>());
+
+    return `{ ${filteredParsedString.join(',\n')} }`;
   }
 }
+
+const typeMappings = {
+  boolean: () => 'Boolean',
+  number: () => 'Number',
+  object: (val: object) => Factery.schemaOf(val),
+  string: () => 'String'
+};
+
+const reflector = (something: any) => typeMappings[typeof something];
