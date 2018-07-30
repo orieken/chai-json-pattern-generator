@@ -2,31 +2,6 @@ import { Factery } from './factery';
 import { expect } from 'chai';
 
 describe('Factery', () => {
-
-  // interface Foo {
-  //   someBoolean: boolean;
-  //   someObject: { test: { c: boolean } };
-  //   string: string;
-  // }
-
-  // const foo: Foo = {
-  //   someBoolean: false,
-  //   someObject: {test: {c: true}},
-  //   string: '',
-  // };
-
-  // const schema = `
-  //       {
-  //         "string": String,
-  //         "someBoolean: Boolean,
-  //         "someObject": {
-  //           "test": {
-  //             "c": Boolean
-  //           }
-  //         }
-  //       }
-  //     `;
-
   describe('schemaOf', () => {
     it('String value schema', () => {
       class UghString { someString: string; }
