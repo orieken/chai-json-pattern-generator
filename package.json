@@ -1,7 +1,7 @@
 {
-  "name": "ts-mockery",
+  "name": "chai-json-pattern-generator",
   "version": "1.0.0-rc.3",
-  "description": "Yet another typescript mocking library.",
+  "description": "generator for chai-json-pattern matcher",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
@@ -18,7 +18,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ike18t/ts-mockery.git"
+    "url": "git+https://github.com/orieken/chai-json-pattern-generator.git"
   },
   "keywords": [
     "Mock",
@@ -29,9 +29,9 @@
   "contributors": [],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ike18t/ts-mockery/issues"
+    "url": "https://github.com/orieken/chai-json-pattern-generator/issues"
   },
-  "homepage": "https://github.com/ike18t/ts-mockery#readme",
+  "homepage": "https://github.com/orieken/chai-json-pattern-generator#readme",
   "devDependencies": {
     "@types/chai": "4.1.4",
     "@types/mocha": "^5.2.5",

@@ -1,1 +1,1 @@
-# ts-factory
+# chai-json-pattern-generator
