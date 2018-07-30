@@ -31,6 +31,17 @@ describe('Factery', () => {
       expect(factery).to.equal(`{ "someObject": { "someBoolean": Boolean } }`);
     });
 
+    it('Works with multiple properties', () => {
+      class Ugh {
+        someBoolean: boolean;
+        someNumber: number;
+        someString: string;
+      }
+      const factery = Factery.schemaOf<Ugh>({ someBoolean: false, someNumber: 123, someString: 'abc' });
+
+      expect(factery).to.equal(`{ "someBoolean": Boolean,\n"someNumber": Number,\n"someString": String }`);
+    });
+
     describe('Array', () => {
       it('containing numbers', () => {
         class UghArray { someArray: number[]; }
