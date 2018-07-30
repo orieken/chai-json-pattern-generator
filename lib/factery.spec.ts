@@ -60,5 +60,35 @@ describe('Factery', () => {
         expect(factery).to.equal(`{ "someArray": [ { "something": Boolean } ] }`);
       });
     });
+
+    describe('integration', () => {
+      it('works', () => {
+        class Ugh {
+          someArray: Array<{ something: boolean }>;
+          someBoolean: boolean;
+          someNumber: number;
+          someObject: { someBoolean: boolean };
+          someString: string;
+        }
+
+        const factery = Factery.schemaOf<Ugh>({
+          someArray: [{ something: true }],
+          someBoolean: false,
+          someNumber: 458,
+          someObject: { someBoolean: true },
+          someString: 'a'
+        });
+
+        const mockThingToValidate: Ugh = {
+          someArray: [{ something: false }],
+          someBoolean: true,
+          someNumber: 100000,
+          someObject: { someBoolean: false },
+          someString: 'bah'
+        };
+
+        (<any> expect(mockThingToValidate)).to.matchPattern(factery);
+      });
+    });
   });
 });
