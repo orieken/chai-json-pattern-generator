@@ -1,0 +1,28 @@
+language: node_js
+node_js:
+  - "8"
+sudo: required
+dist: trusty
+addons:
+    chrome: stable
+before_script:
+  - sudo chown root /opt/google/chrome/chrome-sandbox
+  - sudo chmod 4755 /opt/google/chrome/chrome-sandbox
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
+before_install:
+  - npm cache clean --force
+matrix:
+  notifications:
+    email:
+      recipients:
+        - oriekenjr@gmail.com
+        - ike18t@gmail.com
+      on_success: change
+      on_failure: change
+env:
+  global:
+    - CC_TEST_REPORTER_ID=041c0a74a0ce265e0035d1ae7f4d78f051b0c898
+after_script:
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
