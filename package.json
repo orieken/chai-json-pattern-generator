@@ -14,7 +14,7 @@
     "clean": "rm -rf dist",
     "lint": "tslint -c ./tslint.json -p ./tsconfig.json -t stylish",
     "release": "npm run lint && npm run test && npm run build && standard-version",
-    "test": "mocha --opts mocha.opts"
+    "test": "nyc -r lcov -e .ts -x \"*.spec.ts\" mocha --opts mocha.opts"
   },
   "repository": {
     "type": "git",
@@ -40,6 +40,7 @@
     "chai-json-pattern": "^1.1.0",
     "istanbul": "^0.4.5",
     "mocha": "^5.2.0",
+    "nyc": "^12.0.2",
     "standard-version": "^4.4.0",
     "ts-node": "^7.0.0",
     "tslint": "^5.10.0",
