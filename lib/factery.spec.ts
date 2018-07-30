@@ -2,31 +2,6 @@ import { Factery } from './factery';
 import { expect } from 'chai';
 
 describe('Factery', () => {
-
-  // interface Foo {
-  //   someBoolean: boolean;
-  //   someObject: { test: { c: boolean } };
-  //   string: string;
-  // }
-
-  // const foo: Foo = {
-  //   someBoolean: false,
-  //   someObject: {test: {c: true}},
-  //   string: '',
-  // };
-
-  // const schema = `
-  //       {
-  //         "string": String,
-  //         "someBoolean: Boolean,
-  //         "someObject": {
-  //           "test": {
-  //             "c": Boolean
-  //           }
-  //         }
-  //       }
-  //     `;
-
   describe('schemaOf', () => {
     it('String value schema', () => {
       class UghString { someString: string; }
@@ -56,6 +31,17 @@ describe('Factery', () => {
       expect(factery).to.equal(`{ "someObject": { "someBoolean": Boolean } }`);
     });
 
+    it('Works with multiple properties', () => {
+      class Ugh {
+        someBoolean: boolean;
+        someNumber: number;
+        someString: string;
+      }
+      const factery = Factery.schemaOf<Ugh>({ someBoolean: false, someNumber: 123, someString: 'abc' });
+
+      expect(factery).to.equal(`{ "someBoolean": Boolean,\n"someNumber": Number,\n"someString": String }`);
+    });
+
     describe('Array', () => {
       it('containing numbers', () => {
         class UghArray { someArray: number[]; }
@@ -83,6 +69,36 @@ describe('Factery', () => {
         const factery = Factery.schemaOf<UghArray>({ someArray: [{ something: false }] });
 
         expect(factery).to.equal(`{ "someArray": [ { "something": Boolean } ] }`);
+      });
+    });
+
+    describe('integration', () => {
+      it('works', () => {
+        class Ugh {
+          someArray: Array<{ something: boolean }>;
+          someBoolean: boolean;
+          someNumber: number;
+          someObject: { someBoolean: boolean };
+          someString: string;
+        }
+
+        const factery = Factery.schemaOf<Ugh>({
+          someArray: [{ something: true }],
+          someBoolean: false,
+          someNumber: 458,
+          someObject: { someBoolean: true },
+          someString: 'a'
+        });
+
+        const mockThingToValidate: Ugh = {
+          someArray: [{ something: false }],
+          someBoolean: true,
+          someNumber: 100000,
+          someObject: { someBoolean: false },
+          someString: 'bah'
+        };
+
+        (<any> expect(mockThingToValidate)).to.matchPattern(factery); // tslint:disable-line:no-unsafe-any
       });
     });
   });

@@ -20,7 +20,7 @@
     "removeComments": true,
     "rootDir": ".",
     "sourceMap": true,
-    "strict": false,
+    "strictNullChecks": true,
     "target": "es2016",
     "types": [
       "node",

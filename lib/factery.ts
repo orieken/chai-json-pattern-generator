@@ -1,18 +1,12 @@
-export class Factery {
-  public static schemaOf<T>(object: T): string {
-    if (Array.isArray(object)) {
-      const firstArrayItem = object[0];
-      return `[ ${reflector(firstArrayItem)(firstArrayItem)} ]`;
-    }
-    const filteredParsedString = Object.keys(object).reduce(
-      (acc, key) => {
-        const currentValue = object[key];
-        const type = reflector(currentValue);
-        acc.push(`"${key}": ${type(currentValue)}`);
-        return acc;
-      },
-      new Array<string>());
+export type ArrayEnforcer<T> = {
+  [key in keyof T]:
+    T[key] extends Array<any> ? [T[key][number]] :
+      ArrayEnforcer<T[key]> | T[key]
+};
 
+export class Factery {
+  public static schemaOf<T>(object: T & ArrayEnforcer<T>): string {
+    const filteredParsedString = Object.keys(object).map((key) => `"${key}": ${reflector(object[key])}`);
     return `{ ${filteredParsedString.join(',\n')} }`;
   }
 }
@@ -20,8 +14,8 @@ export class Factery {
 const typeMappings = {
   boolean: () => 'Boolean',
   number: () => 'Number',
-  object: (val: object) => Factery.schemaOf(val),
+  object: (val: object) =>  Array.isArray(val) ? `[ ${reflector(val[0])} ]` : Factery.schemaOf(val),
   string: () => 'String'
 };
 
-const reflector = (something: any) => typeMappings[typeof something];
+const reflector = (object: any) => typeMappings[typeof object](object); // tslint:disable-line:no-unsafe-any
