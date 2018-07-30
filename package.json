@@ -1,6 +1,6 @@
 {
   "name": "chai-json-pattern-generator",
-  "version": "1.0.0-rc.3",
+  "version": "1.0.0",
   "description": "generator for chai-json-pattern matcher",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
