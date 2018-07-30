@@ -23,6 +23,6 @@ matrix:
       on_failure: change
 env:
   global:
-    - CC_TEST_REPORTER_ID=041c0a74a0ce265e0035d1ae7f4d78f051b0c898
+    - CC_TEST_REPORTER_ID=0cdd6923d10f98bd9a53cf4fb66c94f333b55b9e306e2b6a4d073793a6f67f56
 after_script:
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
