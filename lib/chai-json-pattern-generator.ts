@@ -12,7 +12,7 @@ export const generateJsonPatternFor = <T>(object: T & ArrayEnforcer<T>): string 
 const typeMappings = {
   boolean: () => 'Boolean',
   number: () => 'Number',
-  object: (val: object) =>  Array.isArray(val) ? `[ ${reflector(val[0])} ]` : generateJsonPatternFor(val),
+  object: (val: object) =>  Array.isArray(val) ? `[ ${reflector(val[0])}, ... ] OR Array` : generateJsonPatternFor(val),
   string: () => 'String'
 };
 
