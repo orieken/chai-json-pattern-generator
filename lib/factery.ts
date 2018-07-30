@@ -1,5 +1,11 @@
+export type ArrayEnforcer<T> = {
+  [key in keyof T]:
+    T[key] extends Array<any> ? [T[key][number]] :
+      ArrayEnforcer<T[key]> | T[key]
+};
+
 export class Factery {
-  public static schemaOf<T>(object: T): string {
+  public static schemaOf<T>(object: T & ArrayEnforcer<T>): string {
     const filteredParsedString = Object.keys(object).map((key) => `"${key}": ${reflector(object[key])}`);
     return `{ ${filteredParsedString.join(',\n')} }`;
   }
