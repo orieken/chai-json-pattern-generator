@@ -20,6 +20,7 @@
     "no-parameter-properties": false,
     "no-submodule-imports": false,
     "no-unnecessary-class": false,
+    "no-use-before-declare": false,
     "only-arrow-functions": false,
     "ordered-imports": false,
     "prefer-function-over-method": false,
@@ -32,7 +33,6 @@
     "trailing-comma": false,
     "typedef": false,
     "no-unused-expression": false,
-    "no-unused-expression-chai": true,
     "file-name-casing": [true, "kebab-case"]
   },
   "rulesDirectory": [

@@ -87,7 +87,7 @@ describe('Factery', () => {
           someString: 'bah'
         };
 
-        (<any> expect(mockThingToValidate)).to.matchPattern(factery);
+        (<any> expect(mockThingToValidate)).to.matchPattern(factery); // tslint:disable-line:no-unsafe-any
       });
     });
   });

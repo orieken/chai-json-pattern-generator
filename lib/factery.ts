@@ -18,4 +18,4 @@ const typeMappings = {
   string: () => 'String'
 };
 
-const reflector = (object: any) => typeMappings[typeof object](object);
+const reflector = (object: any) => typeMappings[typeof object](object); // tslint:disable-line:no-unsafe-any
