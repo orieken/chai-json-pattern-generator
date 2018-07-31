@@ -1,10 +1,4 @@
-type ArrayEnforcer<T> = {
-  [key in keyof T]:
-    T[key] extends Array<any> ? [T[key][number]] :
-      ArrayEnforcer<T[key]> | T[key]
-};
-
-export const generateJsonPatternFor = <T>(object: T & ArrayEnforcer<T>): string  => {
+export const generateJsonPatternFor = <T>(object: T): string  => {
   const filteredParsedString = Object.keys(object).map((key) => `"${key}": ${reflector(object[key])}`);
   return `{ ${filteredParsedString.join(',\n')} }`;
 };
