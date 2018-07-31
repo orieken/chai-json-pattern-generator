@@ -1,6 +1,6 @@
 export const generateJsonPatternFor = <T>(object: T): string  => {
   const filteredParsedString = Object.keys(object).map((key) => `"${key}": ${reflector(object[key])}`);
-  return `{ ${filteredParsedString.join(',\n')} }`;
+  return `{ ${filteredParsedString.join(',\n') }, ... }`;
 };
 
 const typeMappings = {

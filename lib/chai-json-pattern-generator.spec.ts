@@ -6,28 +6,28 @@ describe('generateJsonPatternFor', () => {
     class UghString { someString: string; }
     const generated = generateJsonPatternFor<UghString>({ someString: 'a' });
 
-    expect(generated).to.equal(`{ "someString": String }`);
+    expect(generated).to.equal(`{ "someString": String, ... }`);
   });
 
   it('Boolean value schema', () => {
     class UghBoolean { someBoolean: boolean; }
     const generated = generateJsonPatternFor<UghBoolean>({ someBoolean: true });
 
-    expect(generated).to.equal(`{ "someBoolean": Boolean }`);
+    expect(generated).to.equal(`{ "someBoolean": Boolean, ... }`);
   });
 
   it('Number value schema', () => {
     class UghNumber { someNumber: number; }
     const generated = generateJsonPatternFor<UghNumber>({ someNumber: 123 });
 
-    expect(generated).to.equal(`{ "someNumber": Number }`);
+    expect(generated).to.equal(`{ "someNumber": Number, ... }`);
   });
 
   it('Object value schema', () => {
     class UghObject { someObject: { someBoolean: boolean }; }
     const generated = generateJsonPatternFor<UghObject>({ someObject: { someBoolean: true } });
 
-    expect(generated).to.equal(`{ "someObject": { "someBoolean": Boolean } }`);
+    expect(generated).to.equal(`{ "someObject": { "someBoolean": Boolean, ... }, ... }`);
   });
 
   it('Works with multiple properties', () => {
@@ -42,7 +42,7 @@ describe('generateJsonPatternFor', () => {
       someString: 'abc'
     });
 
-    expect(generated).to.equal(`{ "someBoolean": Boolean,\n"someNumber": Number,\n"someString": String }`);
+    expect(generated).to.equal(`{ "someBoolean": Boolean,\n"someNumber": Number,\n"someString": String, ... }`);
   });
 
   describe('Array', () => {
@@ -50,28 +50,28 @@ describe('generateJsonPatternFor', () => {
       class UghArray { someArray?: number[]; }
       const generated = generateJsonPatternFor<UghArray>({ someArray: [123] });
 
-      expect(generated).to.equal(`{ "someArray": [ Number, ... ] OR Array }`);
+      expect(generated).to.equal(`{ "someArray": [ Number, ... ] OR Array, ... }`);
     });
 
     it('containing strings', () => {
       class UghArray { someArray: string[]; }
       const generated = generateJsonPatternFor<UghArray>({ someArray: ['abc'] });
 
-      expect(generated).to.equal(`{ "someArray": [ String, ... ] OR Array }`);
+      expect(generated).to.equal(`{ "someArray": [ String, ... ] OR Array, ... }`);
     });
 
     it('containing booleans', () => {
       class UghArray { someArray: boolean[]; }
       const generated = generateJsonPatternFor<UghArray>({ someArray: [false] });
 
-      expect(generated).to.equal(`{ "someArray": [ Boolean, ... ] OR Array }`);
+      expect(generated).to.equal(`{ "someArray": [ Boolean, ... ] OR Array, ... }`);
     });
 
     it('containing objects', () => {
       class UghArray { someArray: Array<{ something: boolean }>; }
       const generated = generateJsonPatternFor<UghArray>({ someArray: [{ something: false }] });
 
-      expect(generated).to.equal(`{ "someArray": [ { "something": Boolean }, ... ] OR Array }`);
+      expect(generated).to.equal(`{ "someArray": [ { "something": Boolean, ... }, ... ] OR Array, ... }`);
     });
   });
 
@@ -84,6 +84,7 @@ describe('generateJsonPatternFor', () => {
         someNumber: number;
         someObject: { someBoolean: boolean };
         someString: string;
+        someThingWeDoNotCareAbout?: string;
       }
 
       const generated = generateJsonPatternFor<Ugh>({
@@ -101,7 +102,8 @@ describe('generateJsonPatternFor', () => {
         someEmptyArray: [],
         someNumber: 100000,
         someObject: { someBoolean: false },
-        someString: 'bah'
+        someString: 'bah',
+        someThingWeDoNotCareAbout: 'still do not care'
       };
 
       (<any> expect(mockThingToValidate)).to.matchPattern(generated); // tslint:disable-line:no-unsafe-any
