@@ -30,6 +30,20 @@ describe('generateJsonPatternFor', () => {
     expect(generated).to.equal(`{ "someObject": { "someBoolean": Boolean, ... }, ... }`);
   });
 
+  it('undefined value schema', () => {
+    class UghUndefined { someUndefined?: ''; }
+    expect(() => { generateJsonPatternFor<UghUndefined>({ someUndefined: undefined }); }).to.throw();
+  });
+
+  it('gives a helpful error message when property is undefined', () => {
+    class UghUndefined { someUndefined?: ''; }
+    try {
+      generateJsonPatternFor<UghUndefined>({ someUndefined: undefined });
+    } catch (e) {
+      expect(e.message).to.equal('someUndefined was undefined');
+    }
+  });
+
   it('Works with multiple properties', () => {
     class Ugh {
       someBoolean: boolean;
