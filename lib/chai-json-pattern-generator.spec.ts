@@ -40,7 +40,7 @@ describe('generateJsonPatternFor', () => {
     try {
       generateJsonPatternFor<UghUndefined>({ someUndefined: undefined });
     } catch (e) {
-      expect(e.message).to.equal('someUndefined was undefined');
+      expect(e.message).to.equal('someUndefined was undefined'); // tslint:disable-line:no-unsafe-any
     }
   });
 
