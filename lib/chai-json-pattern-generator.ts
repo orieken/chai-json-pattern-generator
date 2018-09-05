@@ -7,7 +7,7 @@ const typeMappings = {
   boolean: () => 'Boolean',
   number: () => 'Number',
   object: (key: string, val: object) =>
-    Array.isArray(val) ? `[ ${reflector(key, val[0])}, ... ] OR Array` : generateJsonPatternFor(val),
+    Array.isArray(val) ? `[ ${reflector(key, val[0])}, ... ] OR []` : generateJsonPatternFor(val),
   string: () => 'String',
   undefined: (key: string) => { throw new Error(`${key} was undefined`); }
 };
