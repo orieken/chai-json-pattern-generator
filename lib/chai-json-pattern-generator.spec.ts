@@ -109,25 +109,22 @@ describe('generateJsonPatternFor', () => {
                                                     someString: 'a'
                                                   });
 
-    const mockThingToValidate = {
-      someArray: [{ notValid: false }, {}],
-      someBoolean: true,
-      someEmptyArray: [],
-      someNumber: 100000,
-      someObject: { someBoolean: false },
-      someString: 'bah',
-      someThingWeDoNotCareAbout: 'still do not care'
+    const mockThing = (someArrayItem) => {
+      const mockObject = {
+        someArray: [{}],
+        someBoolean: true,
+        someEmptyArray: [],
+        someNumber: 100000,
+        someObject: {someBoolean: false},
+        someString: 'bah',
+        someThingWeDoNotCareAbout: 'still do not care'
+      };
+      mockObject.someArray.unshift(someArrayItem);
+      return mockObject;
     };
 
-    const mockThingWithSomeValidToValidate: Ugh = {
-      someArray: [{ something: false }, {}],
-      someBoolean: true,
-      someEmptyArray: [],
-      someNumber: 100000,
-      someObject: { someBoolean: false },
-      someString: 'bah',
-      someThingWeDoNotCareAbout: 'still do not care'
-    };
+    const mockThingToValidate = mockThing({ notValid: false });
+    const mockThingWithSomeValidToValidate: Ugh = mockThing({ something: false });
 
     it('is valid', () => {
       // tslint:disable-next-line:no-unsafe-any
