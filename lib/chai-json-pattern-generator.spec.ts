@@ -100,50 +100,43 @@ describe('generateJsonPatternFor', () => {
       someThingWeDoNotCareAbout?: string;
     }
 
+    const generatedValidPattern = generateJsonPatternFor<Ugh>({
+                                                    someArray: [{ something: true }],
+                                                    someBoolean: false,
+                                                    someEmptyArray: [{ somethingElse: '' }],
+                                                    someNumber: 458,
+                                                    someObject: { someBoolean: true },
+                                                    someString: 'a'
+                                                  });
+
+    const mockThingToValidate = {
+      someArray: [{ notValid: false }, {}],
+      someBoolean: true,
+      someEmptyArray: [],
+      someNumber: 100000,
+      someObject: { someBoolean: false },
+      someString: 'bah',
+      someThingWeDoNotCareAbout: 'still do not care'
+    };
+
+    const mockThingWithSomeValidToValidate: Ugh = {
+      someArray: [{ something: false }, {}],
+      someBoolean: true,
+      someEmptyArray: [],
+      someNumber: 100000,
+      someObject: { someBoolean: false },
+      someString: 'bah',
+      someThingWeDoNotCareAbout: 'still do not care'
+    };
+
     it('is valid', () => {
-      const generated = generateJsonPatternFor<Ugh>({
-        someArray: [{ something: true }],
-        someBoolean: false,
-        someEmptyArray: [{ somethingElse: '' }],
-        someNumber: 458,
-        someObject: { someBoolean: true },
-        someString: 'a'
-      });
-
-      const mockThingToValidate: Ugh = {
-        someArray: [{ something: false }, {}],
-        someBoolean: true,
-        someEmptyArray: [],
-        someNumber: 100000,
-        someObject: { someBoolean: false },
-        someString: 'bah',
-        someThingWeDoNotCareAbout: 'still do not care'
-      };
-
-      (<any> expect(mockThingToValidate)).to.matchPattern(generated); // tslint:disable-line:no-unsafe-any
+      // tslint:disable-next-line:no-unsafe-any
+      (<any> expect(mockThingWithSomeValidToValidate)).to.matchPattern(generatedValidPattern);
     });
 
     it('is not valid due to array nestedObject being wrong', () => {
-      const generated = generateJsonPatternFor<Ugh>({
-        someArray: [{ something: true }],
-        someBoolean: false,
-        someEmptyArray: [{ somethingElse: '' }],
-        someNumber: 458,
-        someObject: { someBoolean: true },
-        someString: 'a'
-      });
-
-      const mockThingToValidate = {
-        someArray: [{ notValid: false }, {}],
-        someBoolean: true,
-        someEmptyArray: [],
-        someNumber: 100000,
-        someObject: { someBoolean: false },
-        someString: 'bah',
-        someThingWeDoNotCareAbout: 'still do not care'
-      };
-
-      (<any> expect(mockThingToValidate)).not.to.matchPattern(generated); // tslint:disable-line:no-unsafe-any
+      // tslint:disable-next-line:no-unsafe-any
+      (<any> expect(mockThingToValidate)).not.to.matchPattern(generatedValidPattern);
     });
   });
 });
